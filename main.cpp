@@ -6,7 +6,6 @@
 
 int main(int argc, char* argv[])
 {
-	char * filename = "./tt.h264";
 	printf("start!\n");
 
 	//fstream file("nums.dat", ios::out | ios::binary);
@@ -15,8 +14,8 @@ int main(int argc, char* argv[])
 	//file.close ();
 	std::fstream file_in("tt_2.h264", std::ios::in);
 	file_in.seekg(0, std::ios::end);
-    long file_in_size = file_in.tellg();
-    file_in.seekg(0, std::ios::beg);
+        long file_in_size = file_in.tellg();
+        file_in.seekg(0, std::ios::beg);
 	unsigned char *buffer_in= new unsigned char[file_in_size];
 	memset(buffer_in,0,file_in_size);
  	//long read_len=
@@ -26,6 +25,7 @@ int main(int argc, char* argv[])
  	long start=-1;
  	long end=0;
  	long sn=0;
+        FILE *out_list=fopen("out.list","w");
  	for(long i=0;i<file_in_size;i++)
  	{
  		//printf(" %02x",buffer_in[i]);
@@ -67,6 +67,8 @@ int main(int argc, char* argv[])
  					std::fstream file_out(out_file_name, std::ios::out | std::ios::binary);
  					file_out.write(reinterpret_cast<char *>(buffer_in+start),end-start+1);
  					file_out.close();
+                                        fprintf(out_list,out_file_name.c_str());
+                                        fprintf(out_list,"\n");
  					sn++;
  				}
  				start=i-3;
@@ -83,6 +85,7 @@ int main(int argc, char* argv[])
  	}
  	printf("\n");
 	file_in.close ();
+        fclose(out_list);
     delete [] buffer_in;
 
 }
